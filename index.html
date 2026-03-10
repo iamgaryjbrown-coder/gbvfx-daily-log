@@ -663,7 +663,7 @@ function setupAutocomplete(inputId, listId, getItems, type = 'text') {
     if (val.length < 1) { list.classList.remove('open'); return; }
     const items = getItems();
     const matches = items.filter(item =>
-      String(item).toLowerCase().includes(val)
+      String(item).toLowerCase().startsWith(val)
     );
     render(matches);
   }
