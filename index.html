@@ -746,7 +746,7 @@ submitBtn.addEventListener('click', async () => {
       document.getElementById('stop2Field').value.trim(),
       document.getElementById('stop3Field').value.trim()
     ].filter(s => s !== '');
-    payload.stops = thens.join(', ');
+    payload.stops = thens.join(' | ');
 
     // Build the full route chain: from → to → then1 → then2 → then3
     const chain = [payload.from, payload.to, ...thens].filter(s => s !== '');
