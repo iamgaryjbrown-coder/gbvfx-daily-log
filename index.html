@@ -439,7 +439,7 @@
       </div>
 
       <div class="field">
-        <label>Stop 1 <span class="optional-label">optional</span></label>
+        <label>Then 1 <span class="optional-label">optional</span></label>
         <div class="autocomplete-wrap">
           <input type="text" id="stop1Field" autocomplete="off" placeholder="">
           <div class="autocomplete-list" id="stop1List"></div>
@@ -447,7 +447,7 @@
       </div>
 
       <div class="field">
-        <label>Stop 2 <span class="optional-label">optional</span></label>
+        <label>Then 2 <span class="optional-label">optional</span></label>
         <div class="autocomplete-wrap">
           <input type="text" id="stop2Field" autocomplete="off" placeholder="">
           <div class="autocomplete-list" id="stop2List"></div>
@@ -455,7 +455,7 @@
       </div>
 
       <div class="field">
-        <label>Stop 3 <span class="optional-label">optional</span></label>
+        <label>Then 3 <span class="optional-label">optional</span></label>
         <div class="autocomplete-wrap">
           <input type="text" id="stop3Field" autocomplete="off" placeholder="">
           <div class="autocomplete-list" id="stop3List"></div>
@@ -738,13 +738,23 @@ submitBtn.addEventListener('click', async () => {
   if (petrol.isOn()) {
     payload.from  = document.getElementById('fromField').value.trim();
     payload.to    = document.getElementById('toField').value.trim();
-    // Collect non-empty stops
-    const stops = [
+
+    // Collect non-empty "then" fields
+    const thens = [
       document.getElementById('stop1Field').value.trim(),
       document.getElementById('stop2Field').value.trim(),
       document.getElementById('stop3Field').value.trim()
     ].filter(s => s !== '');
-    payload.stops = stops.join(', ');
+    payload.stops = thens.join(', ');
+
+    // Build the full route chain: from → to → then1 → then2 → then3
+    // Pre-compute origin/destination/waypoints for the Directions API
+    const chain = [payload.from, payload.to, ...thens].filter(s => s !== '');
+    if (chain.length >= 2) {
+      payload.routeOrigin      = chain[0];
+      payload.routeDestination = chain[chain.length - 1];
+      payload.routeWaypoints   = chain.slice(1, -1).join('|'); // everything in between
+    }
   }
 
   payload.notes = document.getElementById('notesField').value.trim();
