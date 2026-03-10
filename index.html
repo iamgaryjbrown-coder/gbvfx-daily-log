@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GBVFX Daily Log</title>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhb4vN_ssMyPuCmb6QOPiOmg4R-dq22sw"></script>
 <style>
   /* ============================================
      GBVFX Daily Log — Styles
@@ -748,12 +749,44 @@ submitBtn.addEventListener('click', async () => {
     payload.stops = thens.join(', ');
 
     // Build the full route chain: from → to → then1 → then2 → then3
-    // Pre-compute origin/destination/waypoints for the Directions API
     const chain = [payload.from, payload.to, ...thens].filter(s => s !== '');
     if (chain.length >= 2) {
-      payload.routeOrigin      = chain[0];
-      payload.routeDestination = chain[chain.length - 1];
-      payload.routeWaypoints   = chain.slice(1, -1).join('|'); // everything in between
+      const origin      = chain[0];
+      const destination  = chain[chain.length - 1];
+      const waypoints    = chain.slice(1, -1).join('|');
+
+      // Call Directions API via Google Maps JS SDK and sum all legs
+      statusEl.textContent = 'Calculating mileage...';
+      try {
+        const directionsService = new google.maps.DirectionsService();
+        const waypointsList = chain.slice(1, -1).map(loc => ({
+          location: loc, stopover: true
+        }));
+
+        const dirResult = await new Promise((resolve, reject) => {
+          directionsService.route({
+            origin: origin,
+            destination: destination,
+            waypoints: waypointsList,
+            travelMode: google.maps.TravelMode.DRIVING,
+            unitSystem: google.maps.UnitSystem.IMPERIAL
+          }, (result, status) => {
+            if (status === 'OK') resolve(result);
+            else reject(new Error(status));
+          });
+        });
+
+        // Sum distance across all legs
+        let totalMetres = 0;
+        dirResult.routes[0].legs.forEach(leg => {
+          totalMetres += leg.distance.value;
+        });
+        const totalMiles = (totalMetres / 1609.344).toFixed(0);
+        payload.mileage = totalMiles + ' mi';
+      } catch (dirErr) {
+        console.warn('Directions API error:', dirErr);
+        payload.mileage = 'API error';
+      }
     }
   }
 
