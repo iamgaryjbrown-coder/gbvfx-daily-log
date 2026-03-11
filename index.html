@@ -576,7 +576,7 @@ function showGoodNews(heading) {
   const item = goodNews[getDailyNewsIndex(todayStr)];
   dismissedHeading.textContent = heading;
   goodNewsText.textContent = item.text;
-  goodNewsSource.href = 'https://www.google.com/search?q=' + encodeURIComponent(item.text);
+  goodNewsSource.href = item.src;
   container.classList.add('dismissed');
   setTimeout(() => {
     container.style.display = 'none';
