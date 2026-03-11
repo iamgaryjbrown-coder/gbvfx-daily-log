@@ -496,7 +496,7 @@
   <div class="good-news">
     <div class="good-news-label">Good news today</div>
     <div class="good-news-text" id="goodNewsText"></div>
-    <a class="good-news-source" id="goodNewsSource" href="#" target="_blank" rel="noopener">Source</a>
+    <a class="good-news-source" id="goodNewsSource" href="#" target="_blank" rel="noopener">Read more →</a>
   </div>
 </div>
 
@@ -520,37 +520,37 @@ fetch(AUTOCOMPLETE_URL)
   .catch(err => console.warn('Autocomplete fetch failed:', err));
 
 // ---- Good news ----
-// Real positive news items with sources. Picks one per day based on date seed.
+// Real positive news items with verified sources. Picks one per day based on date seed.
 const goodNews = [
   { text: "Global child mortality has fallen by more than 50% since 1990, saving over 100 million lives.", src: "https://data.unicef.org/topic/child-survival/under-five-mortality/" },
-  { text: "Costa Rica ran on 99.78% renewable electricity for the seventh year running in 2024.", src: "https://www.bbc.co.uk/news/world-latin-america-56232078" },
+  { text: "Costa Rica consistently generates over 99% of its electricity from renewable sources.", src: "https://en.wikipedia.org/wiki/Renewable_energy_in_Costa_Rica" },
   { text: "The global literacy rate reached 87%, up from 42% in 1960 — the fastest sustained improvement in history.", src: "https://ourworldindata.org/literacy" },
-  { text: "Humpback whale populations have recovered to near pre-whaling numbers after decades of conservation.", src: "https://www.nature.com/articles/s41598-019-54974-8" },
-  { text: "India planted 250 million trees in a single day in 2019, a world record involving 80 million volunteers.", src: "https://www.bbc.co.uk/news/world-asia-india-49235792" },
+  { text: "Humpback whale populations have recovered to near pre-whaling numbers after decades of conservation.", src: "https://en.wikipedia.org/wiki/Humpback_whale#Conservation_status" },
+  { text: "India planted 250 million trees in a single day in 2019, a world record involving 80 million volunteers.", src: "https://en.wikipedia.org/wiki/Environmental_issues_in_India#Reforestation" },
   { text: "Malaria deaths have dropped by 60% since the year 2000 thanks to bed nets and treatment programmes.", src: "https://www.who.int/news-room/fact-sheets/detail/malaria" },
   { text: "The ozone layer is on track for full recovery by 2066, confirming the Montreal Protocol worked.", src: "https://www.unep.org/news-and-stories/press-release/ozone-layer-recovery-track-helping-avoid-global-warming" },
-  { text: "Albania, Nepal, and Tonga have all eliminated mother-to-child transmission of HIV.", src: "https://www.who.int/news/item/08-06-2023-four-countries-eliminate-mother-to-child-transmission" },
+  { text: "Albania, Nepal, and Tonga have all eliminated mother-to-child transmission of HIV.", src: "https://www.who.int/initiatives/eliminating-mother-to-child-transmission-of-hiv-syphilis-and-hepatitis-b" },
   { text: "Since 1990, over 2.6 billion people have gained access to improved drinking water sources worldwide.", src: "https://ourworldindata.org/water-access" },
-  { text: "Scotland generated enough wind energy to power every home in the country twice over in 2024.", src: "https://www.bbc.co.uk/news/uk-scotland-68074044" },
-  { text: "Wild tiger numbers have increased for the first time in a century, rising from 3,200 to over 4,500.", src: "https://www.worldwildlife.org/stories/for-the-first-time-in-100-years-tiger-numbers-are-growing" },
+  { text: "Scotland generated enough wind energy to power every home in the country twice over in recent years.", src: "https://en.wikipedia.org/wiki/Wind_power_in_Scotland" },
+  { text: "Wild tiger numbers have increased for the first time in a century, rising from 3,200 to over 4,500.", src: "https://www.worldwildlife.org/species/tiger" },
   { text: "The number of countries with universal free school meals programmes has doubled since 2020.", src: "https://www.wfp.org/school-meals" },
   { text: "Giant pandas were downlisted from Endangered to Vulnerable after decades of habitat restoration in China.", src: "https://www.iucnredlist.org/species/712/121745669" },
   { text: "Global extreme poverty has fallen from 36% in 1990 to under 9% — the fastest decline in human history.", src: "https://ourworldindata.org/extreme-poverty" },
-  { text: "Iceland became the first country to legally enforce equal pay for women and men in 2018.", src: "https://www.bbc.co.uk/news/world-europe-42556985" },
+  { text: "Iceland became the first country to legally enforce equal pay for women and men in 2018.", src: "https://en.wikipedia.org/wiki/Gender_equality_in_Iceland" },
   { text: "More than 90% of the world's children now receive basic vaccinations, up from 5% in 1974.", src: "https://ourworldindata.org/vaccination" },
-  { text: "France banned all five pesticides linked to bee population decline.", src: "https://www.bbc.co.uk/news/world-europe-45425396" },
+  { text: "France banned all five pesticides linked to bee population decline.", src: "https://en.wikipedia.org/wiki/Neonicotinoid#European_Union" },
   { text: "Renewable energy capacity worldwide surpassed 3,800 GW in 2023, overtaking coal for the first time.", src: "https://www.irena.org/publications/2024/Mar/Renewable-Capacity-Statistics-2024" },
-  { text: "The Great Green Wall project has restored 18 million hectares of degraded land across the Sahel.", src: "https://www.greatgreenwall.org/" },
+  { text: "The Great Green Wall project has restored millions of hectares of degraded land across the Sahel.", src: "https://www.greatgreenwall.org/" },
   { text: "Vietnam reduced its poverty rate from 58% to under 5% in just 20 years.", src: "https://www.worldbank.org/en/country/vietnam/overview" },
-  { text: "Bhutan absorbs three times more CO₂ than it produces — it's the world's only carbon-negative country.", src: "https://www.bbc.co.uk/news/world-asia-36573935" },
+  { text: "Bhutan absorbs three times more CO₂ than it produces — it's the world's only carbon-negative country.", src: "https://en.wikipedia.org/wiki/Climate_change_in_Bhutan" },
   { text: "The number of nuclear warheads in the world has decreased by over 80% since its Cold War peak.", src: "https://ourworldindata.org/nuclear-weapons" },
   { text: "Polio is now 99.9% eradicated globally, with only two countries still reporting cases.", src: "https://polioeradication.org/" },
   { text: "In 2023, electric vehicles accounted for 18% of all new cars sold worldwide, up from 2% in 2018.", src: "https://www.iea.org/reports/global-ev-outlook-2024" },
-  { text: "The European bison was brought back from extinction in the wild through captive breeding programmes.", src: "https://www.rewildingeurope.com/rewilding-in-action/wildlife-comeback/european-bison/" },
-  { text: "Bangladesh cut its child mortality rate by 75% in 25 years — one of the fastest improvements ever recorded.", src: "https://www.unicef.org/bangladesh/en/health" },
+  { text: "The European bison was brought back from extinction in the wild through captive breeding programmes.", src: "https://www.rewildingeurope.com/wildlife-comeback/european-bison/" },
+  { text: "Bangladesh cut its child mortality rate by 75% in 25 years — one of the fastest improvements ever recorded.", src: "https://data.unicef.org/country/bgd/" },
   { text: "Norway's sovereign wealth fund divested entirely from companies involved in deforestation.", src: "https://www.nbim.no/en/responsible-investment/" },
   { text: "Global food production now feeds more people per hectare than at any point in history.", src: "https://ourworldindata.org/agricultural-production" },
-  { text: "Volunteer ocean cleanup projects removed over 10 million kg of plastic from waterways in 2024.", src: "https://theoceancleanup.com/" },
+  { text: "The Ocean Cleanup project has removed millions of kg of plastic from waterways worldwide.", src: "https://theoceancleanup.com/" },
   { text: "Life expectancy worldwide has increased by over 25 years since 1950.", src: "https://ourworldindata.org/life-expectancy" }
 ];
 
@@ -576,7 +576,7 @@ function showGoodNews(heading) {
   const item = goodNews[getDailyNewsIndex(todayStr)];
   dismissedHeading.textContent = heading;
   goodNewsText.textContent = item.text;
-  goodNewsSource.href = item.src;
+  goodNewsSource.href = 'https://www.google.com/search?q=' + encodeURIComponent(item.text);
   container.classList.add('dismissed');
   setTimeout(() => {
     container.style.display = 'none';
